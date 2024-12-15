@@ -12,7 +12,7 @@ int main() {
 
     
     #pragma omp parallel for reduction(+:sum)
-    for (long long i = 0; i < 10*N; ++i) {
+    for (long long i = 0; i < 50*N; ++i) {
         sum += i;
     }
 
