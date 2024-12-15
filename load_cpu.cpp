@@ -1,17 +1,24 @@
 #include <iostream>
 #include <chrono>
-#include <thread>
+#include <omp.h>
 
 int main() {
+    omp_set_num_threads(8); 
+
     auto start = std::chrono::steady_clock::now();
-   
+
     volatile long long sum = 0;
-    for (long long i = 0; i < 10000000000; ++i) { 
-        sum += i; 
+    const long long N = 10000000000LL;
+
+    
+    #pragma omp parallel for reduction(+:sum)
+    for (long long i = 0; i < 10*N; ++i) {
+        sum += i;
     }
 
     auto end = std::chrono::steady_clock::now();
     std::chrono::duration<double> diff = end - start;
     std::cout << diff.count() << std::endl;
+
     return 0;
 }
